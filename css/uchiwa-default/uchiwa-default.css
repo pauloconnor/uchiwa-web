@@ -754,6 +754,14 @@ pre.hljs .hljs-string {
   overflow: hidden;
   white-space: nowrap; }
 
+.table td.rotated {
+  text-align: right;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+}
+
 .table td.output {
   text-overflow: ellipsis;
   overflow: hidden;
@@ -772,6 +780,14 @@ pre.hljs .hljs-string {
 
 .table th.col-date {
   width: 13.5%; }
+
+.table th.rotated {
+  text-align: right;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+}
 
 .table > thead > tr > th, .table > thead > tr > td, .table > tbody > tr > th, .table > tbody > tr > td, .table > tfoot > tr > th, .table > tfoot > tr > td {
   border-top: 0px; }

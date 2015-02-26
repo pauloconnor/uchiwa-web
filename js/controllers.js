@@ -275,6 +275,73 @@ controllerModule.controller('events', ['clientsService', 'conf', '$cookieStore',
 ]);
 
 /**
+* Grid
+*/
+controllerModule.controller('grid', ['backendService', 'clientsService', 'conf', 'notification', 'titleFactory', '$routeParams', 'routingService', '$scope','stashesService',
+  function (backendService, clientsService, conf, notification, titleFactory, $routeParams, routingService, $scope, stashesService) {
+    $scope.pageHeaderText = 'Grid';
+    titleFactory.set($scope.pageHeaderText);
+
+    $scope.predicate = '-status';
+
+    // Routing
+    $scope.filters = {};
+    routingService.initFilters($routeParams, $scope.filters, ['dc', 'subscription', 'limit', 'q']);
+    $scope.$on('$locationChangeSuccess', function(){
+      routingService.updateFilters($routeParams, $scope.filters);
+    });
+
+    // Services
+    $scope.deleteClient = clientsService.deleteClient;
+    $scope.go = routingService.go;
+    $scope.permalink = routingService.permalink;
+    $scope.stash = stashesService.stash;
+
+    $scope.selectClients = function(selectModel) {
+      var filteredClients = $filter('filter')($rootScope.clients, $scope.filters.q);
+      filteredClients = $filter('filter')(filteredClients, {dc: $scope.filters.dc});
+      filteredClients = $filter('hideSilenced')(filteredClients, $scope.filters.silenced);
+      _.each(filteredClients, function(client) {
+        client.selected = selectModel.selected;
+      });
+    };
+
+    $scope.deleteClients = function(clients) {
+      var selectedClients = helperService.selectedItems(clients);
+      _.each(selectedClients, function(client) {
+        $scope.deleteClient(client.dc, client.name);
+      });
+    };
+
+    $scope.silenceClients = function($event, clients) {
+      var selectedClients = helperService.selectedItems(clients);
+      $scope.stash($event, selectedClients);
+    };
+
+    $scope.$watch('filters.q', function(newVal) {
+      var matched = $filter('filter')($rootScope.clients, '!'+newVal);
+      _.each(matched, function(match) {
+        match.selected = false;
+      });
+    });
+
+    $scope.$watch('filters.dc', function(newVal) {
+      var matched = $filter('filter')($rootScope.clients, {dc: '!'+newVal});
+      _.each(matched, function(match) {
+        match.selected = false;
+      });
+    });
+
+    $scope.$watch('filters.silenced', function() {
+      var matched = $filter('filter')($rootScope.clients, {acknowledged: true});
+      _.each(matched, function(match) {
+        match.selected = false;
+      });
+    });
+  }
+]);
+
+/**
 * Info
 */
 controllerModule.controller('info', ['backendService', '$scope', 'titleFactory', 'version',

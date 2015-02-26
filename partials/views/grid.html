@@ -1,0 +1,151 @@
+<ng-include src="partialsPath + '/navbar.html'"></ng-include>
+<ng-include src="partialsPath + '/sidebar.html'"></ng-include>
+<div class="container-fluid clients">
+  <ng-include src="partialsPath + '/page-header.html'"></ng-include>
+  <div class="row-fluid">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+
+        <!--panel-heading-->
+        <div class="panel-heading">
+          <div class="row">
+            <ng-include src="partialsPath + '/panel/dc.html'"></ng-include>
+            <div class="col-md-4">
+              <ng-include src="partialsPath + '/panel/search.html'"></ng-include>
+              <div class="nav-filter pull-right">
+
+                <!--actions-->
+                <panel-actions data="clients" resolve-fn="deleteClients" resolve-legend="Delete" silence-fn="silenceClients"></panel-actions>
+
+                <!--subscriptions-->
+                <ng-include src="partialsPath + '/panel/subscriptions.html'"></ng-include>
+
+                <!--limit-->
+                <panel-limit data="clients" filters="filters" permalink="permalink"></panel-limit>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--panel-body-->
+        <div class="panel-body">
+          <table class="table table-hover table-condensed" style="table-layout: fixed;">
+            <thead>
+              <tr>
+                <th class="col-sm-5" ng-click="predicate = 'name'; reverse=!reverse">Name </i></th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">cache_instance_list-staleness</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_aws_events</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_classic_service_replication</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_conntrack_max</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_disk_boot</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_disk_home</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_disk_nail</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_disk_var</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_docker_ps</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_kernel_bugs</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_ntp_running</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_pagerduty</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_ping_admin1.365</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_ping_admin1-useast1aprod</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_ping_admin1-uswest1aprod</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_ping_batch1-r1-iad1</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_ping_batch2-r1-sfo2</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_pull_deployments</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_puppet_fast_feedback</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_puppet_staleness</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_slash</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check_smtp_for_sensu_handler</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check-yelp_soa</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">check-yelp_soa_graphite_alerts</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">cron</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">cron_aws-check-resource-limits_staleness</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">cron_cleanup_marathon_orphaned_containers_staleness</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">cron_commit_node_info_staleness</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">cron_dbviewer_staleness</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">cron_haproxy_synapse_reaper_staleness</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">cron_iam_admin_staleness</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">cron_iproute2_git_commit_staleness</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">cron_ps-log_staleness</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">cron_set_ipmi_sol_baud_staleness</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">cron_yelp_ipmi_set_credentials_staleness</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">default-routes</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">devb_purposely_failing_check_for_kwa_devb</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">diamond_running</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">disk_ro_mounts</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">eth0_1_link</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">eth0_imager_link</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">eth0_imaging_link</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">eth0_link</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">eth0_sl_link</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">eth0_vip_link</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">eth1_link</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">gmetad_rrd_last_updated</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">hacheck_process_running</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">haproxy-alive</i><th>
+                <th class="col-sm-3 rotated" ng-click="predicate = 'output'; reverse=!reverse">haproxy-sensu-api</i><th>
+                <th class="col-dc" ng-click="predicate = 'dc'; reverse=!reverse"><i class="fa fa-cloud" tooltip-placement="top" tooltip="Datacenter"></i> </i></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="client in clients | orderBy:predicate:reverse | filter:filters.q | filter:{dc:filters.dc} | filterSubscriptions:filters.subscription | limitTo:filters.limit track by client.name" ng-click="go('/client/'+client.dc+'/'+client.name)">
+                <td class="main rotated">{{ client.name }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
