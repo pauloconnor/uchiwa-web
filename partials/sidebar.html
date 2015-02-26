@@ -31,6 +31,13 @@
               </span>
           </a>
         </li>
+        <li id="settings" ng-class="getClass('/aggregates')">
+          <a ng-href="#aggregates" >
+              <span class="small-nav" tooltip-placement="right" tooltip="Aggregates">
+                <i class="fa fa-folder"></i>
+              </span>
+          </a>
+        </li>
         <li id="grid" ng-class="getClass('/grid')">
           <a ng-href="#grid">
               <span class="small-nav" tooltip-placement="right" tooltip="Grid">
@@ -43,6 +50,13 @@
               <span class="small-nav" tooltip-placement="right" tooltip="Info">
                 <i class="fa fa-info-circle"></i>
               </span>
+          </a>
+        </li>
+        <li ng-if="enterprise && config.Uchiwa.Auth === 'sql' && user.isAdmin()" ng-class="getClass('/users')" >
+          <a ng-href="#users">
+            <span class="small-nav" tooltip-placement="right" tooltip="Users">
+              <i class="fa fa-users"></i>
+            </span>
           </a>
         </li>
         <li id="settings" ng-class="getClass('/settings')">

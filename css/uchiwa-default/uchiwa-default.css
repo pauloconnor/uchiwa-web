@@ -4,6 +4,7 @@
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */
@@ -97,6 +98,7 @@ pre.hljs .hljs-string {
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */
@@ -129,6 +131,7 @@ pre.hljs .hljs-string {
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */
@@ -154,6 +157,7 @@ pre.hljs .hljs-string {
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */
@@ -199,6 +203,7 @@ pre.hljs .hljs-string {
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */
@@ -251,6 +256,7 @@ pre.hljs .hljs-string {
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */
@@ -299,6 +305,7 @@ pre.hljs .hljs-string {
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */
@@ -308,9 +315,11 @@ pre.hljs .hljs-string {
 /* Timestamp */
 /* Wells */
 .form-control {
-  width: auto;
   height: auto;
   display: inline; }
+
+.form-control.limit {
+  width: auto; }
 
 .form-control.subscriptions {
   width: 140px; }
@@ -321,6 +330,27 @@ pre.hljs .hljs-string {
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
+/* Modal */
+/* Nav */
+/* Navbar */
+/* Sidebar */
+/* Panels */
+/* Tables */
+/* Timestamp */
+/* Wells */
+.gravatar {
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px; }
+
+/* Colors */
+/* Body, Sections and Headers */
+/* Breadcrumb */
+/* Buttons */
+/* Code */
+/* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */
@@ -348,6 +378,26 @@ pre.hljs .hljs-string {
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
+/* Modal */
+/* Nav */
+/* Navbar */
+/* Sidebar */
+/* Panels */
+/* Tables */
+/* Timestamp */
+/* Wells */
+.label {
+  font-size: 13px;
+  font-weight: 600; }
+
+/* Colors */
+/* Body, Sections and Headers */
+/* Breadcrumb */
+/* Buttons */
+/* Code */
+/* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */
@@ -396,7 +446,8 @@ pre.hljs .hljs-string {
   height: 40px;
   border: 1px solid #ccc;
   background: #fafafa;
-  transition: 0.2s ease-in-out; }
+  transition: 0.2s ease-in-out;
+  color: #4D4D4D; }
 
 .login-form input:focus {
   outline: 0;
@@ -420,6 +471,7 @@ pre.hljs .hljs-string {
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */
@@ -444,6 +496,7 @@ pre.hljs .hljs-string {
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */
@@ -500,6 +553,7 @@ pre.hljs .hljs-string {
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */
@@ -576,6 +630,7 @@ pre.hljs .hljs-string {
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */
@@ -617,6 +672,7 @@ pre.hljs .hljs-string {
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */
@@ -733,6 +789,7 @@ pre.hljs .hljs-string {
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */
@@ -773,7 +830,10 @@ pre.hljs .hljs-string {
   white-space: nowrap; }
 
 .table th.col-min {
-  width: 3%; }
+  width: 4%; }
+
+.table th.col-gravatar {
+  width: 5%; }
 
 .table th.col-dc {
   width: 8%; }
@@ -806,6 +866,7 @@ pre.hljs .hljs-string {
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */
@@ -853,6 +914,7 @@ pre.hljs .hljs-string {
 /* Buttons */
 /* Code */
 /* Dropdown */
+/* Login */
 /* Modal */
 /* Nav */
 /* Navbar */

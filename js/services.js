@@ -68,6 +68,7 @@ serviceModule.service('backendService', ['conf', '$http', '$interval', '$locatio
 
         $rootScope.checks = data.Checks;
         $rootScope.dc = data.Dc;
+        $rootScope.aggregates = data.Aggregates;
 
         $rootScope.clients = _.map(data.Clients, function(client) {
           var existingClient = _.findWhere($rootScope.clients, {name: client.name, dc: client.dc});
@@ -403,9 +404,31 @@ serviceModule.service('helperService', function() {
 */
 serviceModule.service('userService', ['$cookieStore', '$location', '$rootScope',
 function ($cookieStore, $location, $rootScope) {
-  this.logout = function() {
+  var getRole = function () {
+    if ($rootScope.auth) {
+      return $rootScope.auth.Role;
+    } else {
+      return 'operator';
+    }
+  };
+  this.canPost = function () {
+    var role = getRole();
+    if (role === 'operator' || role === 'admin') {
+      return true;
+    }
+    return false;
+  };
+  this.isAdmin = function () {
+    var role = getRole();
+    if (role === 'admin') {
+      return true;
+    }
+    return false;
+  };
+  this.logout = function () {
     $cookieStore.remove('uchiwa_auth');
     $rootScope.auth = false;
+    $rootScope.config = false;
     $location.path('login');
   };
 }]);
