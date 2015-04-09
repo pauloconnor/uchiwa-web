@@ -39,7 +39,7 @@
                 </th>
                 <th class="col-sm-3" ng-click="predicate = 'sourceName'; reverse=!reverse">Source <i class="fa fa-sort"></i></th>
                 <th class="col-sm-3" ng-click="predicate = 'check.name'; reverse=!reverse">Check <i class="fa fa-sort"></i></th>
-                <th class="col-sm-3" ng-click="predicate = 'check.output'; reverse=!reverse">Output <i class="fa fa-sort"></i></th>
+                <th class="col-sm-4" ng-click="predicate = 'check.output'; reverse=!reverse">Output <i class="fa fa-sort"></i></th>
                 <th class="col-sm-1" ng-click="predicate = 'occurrences'; reverse=!reverse"><i class="fa fa-slack" tooltip-placement="top" tooltip-trigger tooltip="Occurrences"></i> <i class="fa fa-sort"></i></th>
                 <th class="col-dc" ng-click="predicate = 'dc'; reverse=!reverse"><i class="fa fa-cloud" tooltip-placement="top" tooltip-trigger tooltip="Datacenter"></i> <i class="fa fa-sort"></i></th>
                 <th class="col-date" ng-click="predicate = 'check.issued'; reverse=!reverse"><i class='fa fa-clock-o' tooltip-placement="top" tooltip-trigger tooltip="Issued"></i> <i class="fa fa-sort"></i></th>
@@ -62,7 +62,7 @@
                   </span>
                   <span class="main check-name" tooltip-placement="top" tooltip-trigger tooltip-html-unsafe="Subscriptions<br /><small>{{event.check.subscribers|arrayToString}}</small>">{{ event.check.name }}</span>
                 </td>
-                <td ng-bind-html="event.check.output | linky" ng-click="helpers.openLink($event)"></td>
+                <td class="output" ng-bind-html="event.check.output | linky" ng-click="helpers.openLink($event)"></td>
                 <td>{{ event.occurrences }}</td>
                 <td>{{ event.dc }}</td>
                 <td tooltip-placement="top" tooltip-trigger tooltip-html-unsafe="Local Time<br /><small>{{ event.check.issued | getTimestamp }}</small>">
