@@ -92,6 +92,7 @@ serviceModule.service('backendService', ['conf', '$http', '$interval', '$locatio
 
         $rootScope.stashes = data.Stashes;
         $rootScope.subscriptions = data.Subscriptions;
+        $rootScope.tags = data.Tags.sort();
 
         $timeout(function() {
           $rootScope.$broadcast('sensu');

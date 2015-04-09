@@ -219,6 +219,15 @@ filterModule.filter('richOutput', ['$filter', function($filter) {
   };
 }]);
 
+filterModule.filter('replaceSpaces', function() {
+  return function(tag) {
+    if (!tag) {
+      return tag;
+    }
+    return tag.replace(/\s+/g, '_');
+  };
+});
+
 filterModule.filter('setMissingProperty', function() {
   return function(property) {
     return property || false;

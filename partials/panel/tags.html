@@ -1,0 +1,31 @@
+<div class="dropdown">
+  <span dropdown-toggle class="action" ng-if="filters.dc == ''">
+    Tags <i class="fa fa-caret-down"></i>
+  </span>
+  <span dropdown-toggle class="action" ng-if="filters.dc != ''">
+    {{filters.dc}} <i class="fa fa-caret-down"></i>
+  </span>
+  <ul class="dropdown-menu">
+    <li ng-class="{selected: $cookies.get('source') || true}">
+      <input type="checkbox" ng-model="checked_source" ng-checked="true"/> Source
+    </li>
+    <li ng-class="{selected: $cookies.get('check') || true}">
+      <input type="checkbox" ng-model="checked_check" ng-checked="true"/> Check
+    </li>
+    <li ng-class="{selected: $cookies.get('output') || true}">
+      <input type="checkbox" ng-model="checked_output" ng-checked="true"/> Output
+    </li>
+    <li ng-class="{selected: $cookies.get('occurances') || true}">
+      <input type="checkbox" ng-model="checked_occurances" ng-checked="true"/> Occurances
+    </li>
+    <li ng-class="{selected: $cookies.get('DC') || true}">
+      <input type="checkbox" ng-model="checked_dc" ng-checked="true"/> DC
+    </li>
+    <li ng-class="{selected: $cookies.get('issued') || true}">
+      <input type="checkbox" ng-model="checked_issued" ng-checked="true"/> Issued
+    </li>
+    <li ng-repeat="tag in tags " ng-class="{selected: false}">
+      <input type="checkbox" ng-checked="true"/> {{ tag }}
+    </li>
+  </ul>
+</div>
