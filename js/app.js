@@ -37,6 +37,7 @@ angular.module('uchiwa')
       .when('/checks', {templateUrl: 'bower_components/uchiwa-web/partials/views/checks.html', reloadOnSearch: false, controller: 'checks'})
       .when('/datacenters', {templateUrl: 'bower_components/uchiwa-web/partials/views/datacenters.html', controller: 'datacenters'})
       .when('/events', {templateUrl: 'bower_components/uchiwa-web/partials/views/events.html', reloadOnSearch: false, controller: 'events'})
+      .when('/groups', {templateUrl: 'bower_components/uchiwa-web/partials/views/groups.html', reloadOnSearch: false, controller: 'groups'})
       .when('/info', {templateUrl: 'bower_components/uchiwa-web/partials/views/info.html', controller: 'info'})
       .when('/login', {templateUrl: 'bower_components/uchiwa-web/partials/login/index.html', controller: 'login'})
       .when('/settings', {templateUrl: 'bower_components/uchiwa-web/partials/views/settings.html', controller: 'settings'})
@@ -51,6 +52,7 @@ angular.module('uchiwa')
   $rootScope.events = [];
   $rootScope.partialsPath = 'bower_components/uchiwa-web/partials';
   $rootScope.skipRefresh = false;
+  $rootScope.showCollectionBar = true;
   $rootScope.enterprise = conf.enterprise;
   $rootScope.themes = themes;
 
