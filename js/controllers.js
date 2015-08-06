@@ -479,15 +479,17 @@ controllerModule.controller('groups', ['clientsService', '$filter', 'filterServi
             var selectedClients = helperService.selectedItems(clients);
             $scope.stash($event, selectedClients);
         };
-        $scope.getSubscriptionStatus = function(subscription) {
+        $scope.getMostCriticalStatusCode = function(subscription){
             var filteredClients = $filter('filter')($rootScope.clients, $scope.filters.q);
             filteredClients = $filter('filterSubscriptions')(filteredClients, subscription);
             var statusArray = [];
             _.each(filteredClients, function(client) {
                 statusArray.push(client.status);
             });
-            var mostCriticalStatus = Math.max.apply(null, statusArray);
-            switch (mostCriticalStatus) {
+            return Math.max.apply(null, statusArray);
+        };
+        $scope.getSubscriptionStatus = function(subscription) {
+            switch (this.getMostCriticalStatusCode(subscription)) {
                 case 0:
                     return 'success';
                 case 1:
@@ -498,12 +500,6 @@ controllerModule.controller('groups', ['clientsService', '$filter', 'filterServi
                     return 'unknown';
             }
         };
-        $scope.$watch('filters.q', function(newVal) {
-            var matched = $filter('filter')($rootScope.clients, '!' + newVal);
-            _.each(matched, function(match) {
-                match.selected = false;
-            });
-        });
         $scope.$watch('filters.dc', function(newVal) {
             var matched = $filter('filter')($rootScope.clients, {
                 dc: '!' + newVal
@@ -582,7 +578,7 @@ function (audit, backendService, $cookieStore, $location, notification, $rootSco
 /**
 * Navbar
 */
-controllerModule.controller('navbar', ['audit', '$location', '$rootScope', '$scope', 'navbarServices', 'routingService', 'userService',
+controllerModule.controller('navbar', ['audit', '$location', '$rootScope', '$scope', 'navbarServices', 'routingService', 'userService', 
   function (audit, $location, $rootScope, $scope, navbarServices, routingService, userService) {
 
     // Helpers
@@ -630,9 +626,8 @@ controllerModule.controller('settings', ['$cookies', '$scope', 'titleFactory',
 /**
 * Sidebar
 */
-controllerModule.controller('sidebar', ['$location', 'navbarServices', '$scope', 'userService',
-  function ($location, navbarServices, $scope, userService) {
-
+controllerModule.controller('sidebar', ['$location', 'navbarServices', '$scope', 'userService', '$filter', '$rootScope', 'routingService',
+  function ($location, navbarServices, $scope, userService, $filter, $rootScope, routingService) {
     $scope.user = userService;
 
     // Get CSS class for sidebar elements
@@ -643,7 +638,43 @@ controllerModule.controller('sidebar', ['$location', 'navbarServices', '$scope',
         return '';
       }
     };
-
+    $scope.getMostCriticalStatusCode = function(subscription){
+        var filteredClients = $filter('filter')($rootScope.clients, $scope.filters.q);
+        filteredClients = $filter('filterSubscriptions')(filteredClients, subscription);
+        var statusArray = [];
+        _.each(filteredClients, function(client) {
+            statusArray.push(client.status);
+        });
+        return Math.max.apply(null, statusArray);
+    };
+    $scope.countCritical = function(subscriptions){
+      var numCritical = 0;
+      _.each(subscriptions, function(sub){
+        if ($scope.getMostCriticalStatusCode(sub) == 2){
+          numCritical += 1;
+        }
+      });
+      return numCritical;
+    };
+    $scope.countWarning = function(subscriptions){
+      var numWarning = 0;
+      _.each(subscriptions, function(sub){
+        if ($scope.getMostCriticalStatusCode(sub) == 1){
+          numWarning += 1;
+        }
+      });
+      return numWarning;
+    };
+    $scope.countUnknown = function(subscriptions){
+      var numUnknown = 0;
+      _.each(subscriptions, function(sub){
+        if ($scope.getMostCriticalStatusCode(sub) < 0 || $scope.getMostCriticalStatusCode(sub) > 2){
+          numUnknown += 1;
+        }
+      });
+      return numUnknown;
+    };
+  
     $scope.$on('sensu', function () {
       // Update badges
       navbarServices.countStatuses('clients', function (item) {
@@ -651,7 +682,7 @@ controllerModule.controller('sidebar', ['$location', 'navbarServices', '$scope',
       });
       navbarServices.countStatuses('events', function (item) {
         return item.check.status;
-      });
+      });      
 
       // Update alert badge
       navbarServices.health();

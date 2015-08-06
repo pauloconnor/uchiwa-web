@@ -1,0 +1,73 @@
+<ng-include src="partialsPath + '/navbar.html'"></ng-include>
+<ng-include src="partialsPath + '/sidebar.html'"></ng-include>
+<div class="container-fluid clients">
+    <div class="row-fluid">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <! --panel-heading-->
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <! --title-->
+                            <ng-include src="partialsPath + '/panel/breadcrumb.html'"></ng-include>
+                        </div>
+                        <div class="col-xs-12 nopadding">
+                            <! --dc-->
+                            <ng-include src="partialsPath + '/panel/dc.html'"></ng-include>
+                            <! --actions-->
+                            <panel-actions data="clients" resolve-fn="deleteClients" resolve-legend="Delete" silence-fn="silenceClients" ng-if="!user.isReadOnly()"></panel-actions>
+                            <! --search-->
+                            <ng-include src="partialsPath + '/panel/search.html'"></ng-include>
+                        </div>
+                    </div>
+                </div>
+                <! --panel-body-->
+                <accordion close-others="true">
+                <accordion-group ng-repeat="subscription in subscriptions | orderBy:'toString()'" class="well-{{ getSubscriptionStatus(subscription) }}" is-open="isopen">
+                    <accordion-heading ng-click="isopen = !isopen">
+                        <div >
+                            <i class="fa" ng-class="isopen ? 'fa-minus-square-o' : 'fa-plus-square-o'"></i>&nbsp;&nbsp;{{ subscription }}
+                        </div>
+                    </accordion-heading>
+                    <table class="table table-hover table-condensed" style="table-layout: fixed;" ng-init="subscr = subscription">
+                    <thead>
+                        <tr>
+                            <th class="col-min">
+                                <input type="checkbox" ng-model="selectModel.selected" ng-change="selectClients(selectModel, subscr)"  ng-if="!user.isReadOnly()"></input>
+                            </th>
+                            <th class="col-min" ng-if="!user.isReadOnly()"></th>
+                            <th class="col-sm-2" ng-click="predicate = 'name'; reverse=!reverse">Name <i class="fa fa-sort"></i></th>
+                            <th class="col-sm-2" ng-click="predicate = 'address'; reverse=!reverse">IP <i class="fa fa-sort"></i></th>
+                            <th class="col-sm-5" ng-click="predicate = 'output'; reverse=!reverse">Events <i class="fa fa-sort"></i></th>
+                            <th class="col-dc" ng-click="predicate = 'dc'; reverse=!reverse"><i class="fa fa-cloud" tooltip-placement="top" tooltip-trigger tooltip="Datacenter"></i> <i class="fa fa-sort"></i></th>
+                            <th class="col-dc" ng-click="predicate = 'version'; reverse=!reverse"><i class="fa fa-upload" tooltip-placement="top" tooltip-trigger tooltip="Sensu Version"></i> <i class="fa fa-sort"></i></th>
+                            <th class="col-date" ng-click="predicate = 'timestamp'; reverse=!reverse"><i class='fa fa-clock-o' tooltip-placement="top" tooltip-trigger tooltip="Issued"></i> <i class="fa fa-sort"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="client in filtered = (clients | orderBy:predicate:reverse | collection:'clients' | filter:filters.q | filter:{dc:filters.dc}:filterComparator) | filterSubscriptions:subscription | limitTo:filters.limit track by $index" ng-click="go('/client/'+client.dc+'/'+client.name)">
+                            <td class="well-{{ client.status | getStatusClass }}" ng-click="$event.stopPropagation()">
+                                <input type="checkbox" ng-model="client.selected" = ng-if="!user.isReadOnly()"></input>
+                            </td>
+                            <td ng-click="stash($event, client)" ng-if="!user.isReadOnly()">
+                                <i class="fa {{ client.acknowledged | getAckClass }}"></i>
+                            </td>
+                            <td class="main"><span tooltip-placement="top" tooltip-trigger tooltip-html="'Subscriptions<br /><small>{{client.subscriptions|arrayToString}}</small>'">{{ client.name }}</span></td>
+                            <td>{{ client.address }}</td>
+                            <td class="output" ng-bind-html="client.output | linky" ng-click="helpers.openLink($event)"></td>
+                            <td>{{ client.dc }}</td>
+                            <td>{{ client.version }}</td>
+                            <td>
+                                <relative-time timestamp="client.timestamp"></relative-time>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </accordion-group>
+                </accordion>
+            </div>
+        </div>
+    </div>
+</div>
+
+
