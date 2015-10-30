@@ -401,8 +401,8 @@ controllerModule.controller('EventsController', ['clientsService', 'conf', '$coo
 ]);
 
 /**
- * Groups
- */
+* Groups
+*/
 controllerModule.controller('GroupsController', ['clientsService', '$filter', 'filterService', 'helperService', '$rootScope', '$routeParams', 'routingService', '$scope', 'Sensu', 'stashesService', 'titleFactory', 'userService',
     function (clientsService, $filter, filterService, helperService, $rootScope, $routeParams, routingService, $scope, Sensu, stashesService, titleFactory, userService) {
         $scope.pageHeaderText = 'Groups';
