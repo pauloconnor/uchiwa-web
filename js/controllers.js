@@ -185,7 +185,9 @@ controllerModule.controller('ClientController', ['backendService', 'clientsServi
         // apply filters
         var images = [];
         angular.forEach(check.last_result, function(value, key) { // jshint ignore:line
-          value = $filter('getTimestamp')(value);
+          if (value) {
+            value = $filter('getTimestamp')(value);
+          }
           value = $filter('richOutput')(value);
 
           if (/<img src=/.test(value)) {
