@@ -91,15 +91,15 @@
 
                   <div class="row counts">
                     <div class="col-sm-4">
-                      <span class="total">{{ navbar.clients.critical }}</span>
+                      <span class="total">{{ countCritical(subscriptions) }}</span>
                       <p class="category">critical</p>
                     </div>
                     <div class="col-sm-4">
-                      <span class="total">{{ navbar.clients.warning }}</span>
+                      <span class="total">{{ countWarning(subscriptions) }}</span>
                       <p class="category">warning</p>
                     </div>
                     <div class="col-sm-4">
-                      <span class="total">{{ navbar.clients.unknown }}</span>
+                      <span class="total">{{ countUnknown(subscriptions) }}</span>
                       <p class="category">unknown</p>
                     </div>
                   </div>
