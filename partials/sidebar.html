@@ -76,6 +76,39 @@
             </div>
           </div>
         </li>
+        <li id="groups" class="show-on-hover" ng-class="getClass('/groups')">
+          <a ng-href="#groups" class="dropdown-toggle" data-toggle="dropdown">
+            <span class="small-nav">
+              <i class="fa fa-cubes"></i>
+              <span class="badge badge-{{ clientsStyle }}">{{ metrics.clients.total }}</span>
+            </span>
+          </a>
+          <div class="dropdown-menu popover-menu" role="menu">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="panel panel-body panel-popover panel-{{ clientsStyle }}">
+                  <div class="panel-title">subscription groups</div>
+
+                  <div class="row counts">
+                    <div class="col-sm-4">
+                      <span class="total">{{ metrics.clients.critical }}</span>
+                      <p class="category">critical</p>
+                    </div>
+                    <div class="col-sm-4">
+                      <span class="total">{{ metrics.clients.warning }}</span>
+                      <p class="category">warning</p>
+                    </div>
+                    <div class="col-sm-4">
+                      <span class="total">{{ metrics.clients.unknown }}</span>
+                      <p class="category">unknown</p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
         <li id="checks" class="show-on-hover" ng-class="getClass('/checks')">
           <a ng-href="#checks" class="dropdown-toggle" data-toggle="dropdown">
             <span class="small-nav">
