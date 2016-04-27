@@ -1,4 +1,4 @@
-<div class="panel panel-default client-info">
+<div class="panel panel-default">
   <div class="panel-body">
     <div class="row mb15">
       <div class="col-xs-6">
@@ -31,7 +31,7 @@
               <div class="key pull-right">{{key}}</div>
             </div>
             <div class="col-xs-8">
-              <div class="value" ng-bind-html="value"></div>
+              <div class="value" ng-bind-html="value | highlight"></div>
             </div>
           </div>
         </span>
