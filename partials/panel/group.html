@@ -1,0 +1,22 @@
+<div class="dropdown" dropdown>
+  <span dropdown-toggle class="action" ng-if="filters.group == ''">
+    No Grouping <i class="fa fa-caret-down"></i>
+  </span>
+  <span dropdown-toggle class="action" ng-if="filters.group != ''">
+    {{ filters.group }} <i class="fa fa-caret-down"></i>
+  </span>
+  <ul class="dropdown-menu">
+    <li ng-class="{selected: filters.group == ''}">
+      <a href="" ng-click="permalink($event, 'group', '')">
+        <i class="fa fa-slack"></i>
+        No Grouping
+      </a>
+    </li>
+    <li ng-repeat="group in events | buildGroups" ng-class="{selected: filters.group == group}">
+      <a href="" ng-click="permalink($event, 'group', group)">
+        <i class="fa fa-slack"></i>
+          {{group}}
+      </a>
+    </li>
+  </ul>
+</div>

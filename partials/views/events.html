@@ -22,6 +22,8 @@
               <ng-include src="partialsPath + '/panel/check.html'"></ng-include>
               <!--status-->
               <ng-include src="partialsPath + '/panel/status.html'"></ng-include>
+              <!--group-->
+              <ng-include src="partialsPath + '/panel/group.html'"></ng-include>
               <!--limit-->
               <panel-limit data="events" filters="filters" permalink="permalink"></panel-limit>
               <!--search-->
@@ -31,7 +33,7 @@
         </div>
         <!--panel-body-->
         <div class="panel-body">
-          <table class="table table-hover table-condensed" style="table-layout: fixed;">
+          <table class="table table-hover table-condensed" style="table-layout: fixed;" ng-show="filters.group == ''">
             <thead>
               <tr>
                 <th ng-class="user.isReadOnly() ? 'col-min-ro' : 'col-min'">
@@ -72,6 +74,56 @@
               </tr>
             </tbody>
           </table>
+          <accordion close-others="true" ng-hide="filters.group == ''">
+            <accordion-group ng-repeat="(group, data) in filtered track by $index" heading="{{group}}" class="well-{{ data | getGroupStatus }}" is-open="isopen" ng-hide="filters.group == ''">
+                <accordion-heading ng-click="isopen = !isopen" ng-hide="filters.group == ''">
+                    <div ng-hide="filters.group == ''">
+                        <span ng-hide="filters.group == ''"><i class="fa" ng-class="isopen ? 'fa-minus-square-o' : 'fa-plus-square-o'"></i>&nbsp;&nbsp;{{ data.name }} (Critical:{{ data.critical }} Warning:{{ data.warning }} Unknown:{{ data.unknown }})</span>
+                    </div ng-hide="filters.group == ''">
+                </accordion-heading ng-hide="filters.group == ''">
+                <table class="table table-hover table-condensed" style="table-layout: fixed;" ng-show="filters.group == ''">
+                  <thead>
+                    <tr>
+                      <th ng-class="user.isReadOnly() ? 'col-min-ro' : 'col-min'">
+                        <input type="checkbox" ng-model="selected.all" ng-change="selectAll(filtered, selected)"  ng-if="!user.isReadOnly()"></input>
+                      </th>
+                      <th class="col-sm-3" ng-click="predicate = 'sourceName'; reverse=!reverse">Source <i class="fa fa-sort"></i></th>
+                      <th class="col-sm-3" ng-click="predicate = 'check.name'; reverse=!reverse">Check <i class="fa fa-sort"></i></th>
+                      <th class="col-sm-4" ng-click="predicate = 'check.output'; reverse=!reverse">Output <i class="fa fa-sort"></i></th>
+                      <th class="col-sm-1" ng-click="predicate = 'occurrences'; reverse=!reverse"><i class="fa fa-slack" tooltip-placement="top" tooltip-trigger tooltip="Occurrences"></i> <i class="fa fa-sort"></i></th>
+                      <th class="col-dc" ng-click="predicate = 'dc'; reverse=!reverse"><i class="fa fa-cloud" tooltip-placement="top" tooltip-trigger tooltip="Datacenter"></i> <i class="fa fa-sort"></i></th>
+                      <th class="col-date" ng-click="predicate = 'check.issued'; reverse=!reverse"><i class='fa fa-clock-o' tooltip-placement="top" tooltip-trigger tooltip="Issued"></i> <i class="fa fa-sort"></i></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="event in data.events | buildEvents | orderBy:predicate:reverse | limitTo:filters.limit track by event._id" ng-click="go('/client/'+event.dc+'/'+event.client.name+'?check='+event.check.name)">
+                      <td class="well-{{ event.check.status | getStatusClass }}" ng-click="$event.stopPropagation()">
+                        <!-- adding ng-click to get event info -->
+                        <input type="checkbox" ng-model="selected.ids[event._id]" ng-if="!user.isReadOnly()"></input>
+                      </td>
+                      <td class="source">
+                        <span ng-click="event.client['dc'] = event.dc; stash($event, event.client)" ng-if="!user.isReadOnly()">
+                          <silence-icon acknowledged="event.client.acknowledged"></silence-icon>
+                        </span>
+                        <span class="dropdown-toggle" >{{ event.sourceName }}</span>
+                      </td>
+                      <td class="main">
+                        <span ng-click="stash($event, event)" ng-if="!user.isReadOnly()">
+                          <silence-icon acknowledged="event.acknowledged"></silence-icon>
+                        </span>
+                        <span class="main check-name" tooltip-placement="top" tooltip-trigger tooltip-html="'Subscriptions<br /><small>{{event.check.subscribers|arrayToString}}</small>'">{{ event.check.name }}</span>
+                      </td>
+                      <td class="output" ng-bind-html="event.check.output | linky" ng-click="openLink($event)"></td>
+                      <td>{{ event.occurrences }}</td>
+                      <td class="dc">{{ event.dc }}</td>
+                      <td>
+                        <relative-time timestamp="event.check.issued"></relative-time>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </accordion-group ng-hide="filters.group == ''">
+            </accordion ng-hide="filters.group == ''">
         </div>
       </div>
     </div>

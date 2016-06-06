@@ -81,6 +81,21 @@ filterModule.filter('buildStashes', function() {
   };
 });
 
+filterModule.filter('buildGroups', function() {
+  return function(events) {
+    var groups = [];
+    angular.forEach(events, function(event) {
+      angular.forEach(event.client.tags, function(key, value) {
+        if (groups.indexOf(value) == -1) {
+          groups.push(value);
+        }
+      });
+    });
+    groups.push('Subscriptions')
+    return groups.sort();
+  };
+});
+
 filterModule.filter('collection', function () {
   return function(items) {
     return items;
@@ -135,6 +150,21 @@ filterModule.filter('getExpireTimestamp', ['conf', function (conf) {
   };
 }]);
 
+filterModule.filter('getGroupStatus', function() {
+  return function(status) {
+    if (status.critical > 0) {
+      return 'critical'
+    }
+    if (status.warning > 0) {
+      return 'warning'
+    }
+    if (status.unknown > 0) {
+      return 'unknown'
+    }
+    return 'success'
+  }
+});
+
 filterModule.filter('getStatusClass', function() {
   return function(status) {
     switch(status) {
@@ -162,6 +192,80 @@ filterModule.filter('getTimestamp', ['conf', function (conf) {
     return moment(timestamp).format(conf.date);
   };
 }]);
+
+filterModule.filter('groupTags', function() {
+  var groupedEvents;
+  return function(events, groupName) {
+    var start = new Date().getTime();
+    groupedEvents = {};
+    if (groupName) {
+      angular.forEach(events, function(event) {
+        if (groupName == "Subscriptions") {
+          if (event.client.subscriptions == '') {
+            addNewGroup(event, "All")
+          } else {
+            angular.forEach(event.client.subscriptions, function(subscription) {
+              if (subscription == []) {
+                subscription = "All"
+              } else {
+                console.log(subscription);
+              }
+              addNewGroup(event, subscription)
+            });
+          }
+        } else if (typeof event.client.tags !== "undefined") {
+          addNewGroup(event, event.client.tags[groupName])
+        }
+      });
+    } else {
+      return events;
+    }
+
+    var keys = [];
+    keys = Object.keys(groupedEvents);
+    var len = keys.length;
+    keys.sort(function(a, b) {
+      return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
+    var groupEvents = {};
+    for (var i = 0; i < len; i++)
+    {
+      var k = keys[i];
+      groupEvents[k] = groupedEvents[k];
+    }
+    groupedEvents = {};
+
+    var end = new Date().getTime();
+    var time = end - start;
+    console.log('Execution time: ' + time);
+    return groupEvents;
+  }
+
+  function addNewGroup(event, groupName) {
+    if (!groupedEvents[groupName]) {
+      groupedEvents[groupName] = {};
+      groupedEvents[groupName].name = groupName;
+      groupedEvents[groupName].critical = 0;
+      groupedEvents[groupName].warning = 0;
+      groupedEvents[groupName].unknown = 0;
+      groupedEvents[groupName].ok = 0;
+      groupedEvents[groupName].events = new Array();
+    }
+
+    switch(event.check.status) {
+      case 0:
+        groupedEvents[groupName].ok++;
+      case 1:
+        groupedEvents[groupName].warning++;
+      case 2:
+        groupedEvents[groupName].critical++;
+      default:
+        groupedEvents[groupName].unknown++;
+    }
+    groupedEvents[groupName].events.push(event)
+  }
+
+});
 
 filterModule.filter('hideSilenced', function() {
   return function(events, hideSilenced) {

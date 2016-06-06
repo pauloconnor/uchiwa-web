@@ -371,13 +371,13 @@ controllerModule.controller('EventsController', ['clientsService', 'conf', '$coo
     });
 
     // Filters
-    $scope.$watchGroup(['collection.search', 'filters.q', 'filters.dc', 'filters.check' , 'filters.status' , 'filters.silenced' , 'filters.clientsSilenced' , 'filters.occurrences'], function(newValues, oldValues) {
+    $scope.$watchGroup(['collection.search', 'filters.q', 'filters.dc', 'filters.check' , 'filters.group' , 'filters.status' , 'filters.silenced' , 'filters.clientsSilenced' , 'filters.occurrences'], function(newValues, oldValues) {
       updateFilters();
       helperService.updateSelected(newValues, oldValues, $scope.filtered, $scope.selected);
     });
 
     // Routing
-    routingService.initFilters($routeParams, $scope.filters, ['dc', 'check', 'limit', 'q', 'status']);
+    routingService.initFilters($routeParams, $scope.filters, ['dc', 'check', 'group', 'limit', 'q', 'status']);
     $scope.$on('$locationChangeSuccess', function(){
       routingService.updateFilters($routeParams, $scope.filters);
     });
@@ -407,6 +407,7 @@ controllerModule.controller('EventsController', ['clientsService', 'conf', '$coo
       filtered = $filter('hideOccurrences')(filtered, $scope.filters.occurrences);
       filtered = $filter('filter')(filtered, {check: {name: $scope.filters.check}});
       filtered = $filter('filter')(filtered, $scope.filters.q);
+      filtered = $filter('groupTags')(filtered, $scope.filters.group);
       filtered = $filter('collection')(filtered, 'events');
       $scope.filtered = filtered;
     };
@@ -429,88 +430,6 @@ controllerModule.controller('EventsController', ['clientsService', 'conf', '$coo
       $cookieStore.put('hideOccurrences', $scope.filters.occurrences);
     });
   }
-]);
-
-/**
-* Groups
-*/
-controllerModule.controller('GroupsController', ['clientsService', '$filter', 'filterService', 'helperService', '$rootScope', '$routeParams', 'routingService', '$scope', 'Sensu', 'stashesService', 'titleFactory', 'userService',
-    function (clientsService, $filter, filterService, helperService, $rootScope, $routeParams, routingService, $scope, Sensu, stashesService, titleFactory, userService) {
-        $scope.pageHeaderText = 'Groups';
-        titleFactory.set($scope.pageHeaderText);
-        $scope.predicate = ['-status', 'name'];
-        // Routing
-        $scope.filters = {};
-        routingService.initFilters($routeParams, $scope.filters, ['dc', 'subscription', 'limit', 'q']);
-        $scope.$on('$locationChangeSuccess', function() {
-            routingService.updateFilters($routeParams, $scope.filters);
-        });
-        // Services
-        $scope.deleteClient = clientsService.deleteClient;
-        $scope.filterComparator = filterService.comparator;
-        $scope.go = routingService.go;
-        $scope.permalink = routingService.permalink;
-        $scope.stash = stashesService.stash;
-        $scope.user = userService;
-        $scope.selectClients = function(selectModel, subscription) {
-            var filteredClients = $filter('filter')($rootScope.clients, $scope.filters.q);
-            filteredClients = $filter('filter')(filteredClients, {
-                dc: $scope.filters.dc
-            });
-            filteredClients = $filter('filterSubscriptions')(filteredClients, subscription);
-            filteredClients = $filter('hideSilenced')(filteredClients, $scope.filters.silenced);
-            _.each(filteredClients, function(client) {
-                client.selected = selectModel.selected;
-            });
-        };
-        $scope.deleteClients = function(clients) {
-            var selectedClients = helperService.selectedItems(clients);
-            _.each(selectedClients, function(client) {
-                $scope.deleteClient(client.dc, client.name);
-            });
-        };
-        $scope.silenceClients = function($event, clients) {
-            var selectedClients = helperService.selectedItems(clients);
-            $scope.stash($event, selectedClients);
-        };
-        $scope.getMostCriticalStatusCode = function(subscription){
-            var filteredClients = $filter('filter')($rootScope.clients, $scope.filters.q);
-            filteredClients = $filter('filterSubscriptions')(filteredClients, subscription);
-            var statusArray = [];
-            _.each(filteredClients, function(client) {
-                statusArray.push(client.status);
-            });
-            return Math.max.apply(null, statusArray);
-        };
-        $scope.getSubscriptionStatus = function(subscription) {
-            switch (this.getMostCriticalStatusCode(subscription)) {
-                case 0:
-                    return 'success';
-                case 1:
-                    return 'warning';
-                case 2:
-                    return 'critical';
-                default:
-                    return 'unknown';
-            }
-        };
-        $scope.$watch('filters.dc', function(newVal) {
-            var matched = $filter('filter')($rootScope.clients, {
-                dc: '!' + newVal
-            });
-            _.each(matched, function(match) {
-                match.selected = false;
-            });
-        });
-        $scope.$watch('filters.silenced', function() {
-            var matched = $filter('filter')($rootScope.clients, {
-                acknowledged: true
-            });
-            _.each(matched, function(match) {
-                match.selected = false;
-            });
-        });
-    }
 ]);
 
 /**

@@ -170,6 +170,12 @@ pre.hljs .hljs-string {
   color: #ffffff;
   background-color: #6A5E98; }
 
+
+.accordion-toggle:focus {
+  outline: none;
+  text-decoration: none;
+}
+
 /* Colors */
 /* Body, Sections and Headers */
 /* Breadcrumb */
@@ -882,7 +888,6 @@ li.timestamp .relative-timestamp {
   padding-right: 10px; }
 
 .panel .panel-title {
-  margin-top: 20px;
   font-size: 13px;
   text-transform: uppercase;
   font-weight: 700; }
